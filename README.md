@@ -21,7 +21,7 @@ composer require tomkeyte/laravel-http2-push
 Publish the configuration (recommended):
 
 ```bash
-php artisan vendor:publish --provider="tomkeyte\LaravelHttp2Push\Http2PushServiceProvider"
+php artisan vendor:publish --provider="TomKeyte\LaravelHttp2Push\Http2PushServiceProvider"
 ```
 
 ### Server config
