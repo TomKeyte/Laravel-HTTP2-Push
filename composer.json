@@ -1,0 +1,57 @@
+{
+    "name": "tomkeyte/laravel-http2-push",
+    "description": "A cache aware provider for HTTP2 Push within a Laravel application",
+    "keywords": [
+        "laravel",
+        "laravel-http2-push",
+        "http2",
+        "push",
+        "seo"
+    ],
+    "homepage": "https://github.com/tomkeyte/laravel-http2-push",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Tom Keyte",
+            "email": "hello@tomkeyte.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.3",
+        "illuminate/support": "^6.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TomKeyte\\LaravelHttp2Push\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TomKeyte\\LaravelHttp2Push\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TomKeyte\\LaravelHttp2Push\\Http2PushServiceProvider"
+            ]
+        }
+    }
+}
