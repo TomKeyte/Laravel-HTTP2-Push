@@ -32,7 +32,9 @@ Instructions for [nginx](https://www.nginx.com/blog/nginx-1-13-9-http2-server-pu
 
 ## Usage
 
-Check the `http2push.php` config file to set default expiry lengths based on your setup. N.B, expiry lengths throughout the package are expressed in days. The setup is as following:
+Check the `http2push.php` config file to set default expiry lengths based on your setup. N.B, expiry lengths throughout the package are expressed in days - a value of `-1` indicates no cookie should be set, resulting in a push on all requests.
+
+The setup is as following:
 
 * Set the global cookie expiry limit with `cookie_expires_in`
 * Set the cookie expiry for certain file types (these override the global limit):
