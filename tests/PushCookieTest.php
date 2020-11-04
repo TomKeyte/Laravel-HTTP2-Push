@@ -9,7 +9,9 @@ use Orchestra\Testbench\TestCase;
 class PushCookieTest extends TestCase
 {
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_hashes_resource_name()
     {
         $name = '/js/app.js?id=abc123';
@@ -20,7 +22,9 @@ class PushCookieTest extends TestCase
         $this->assertEquals('http2_pushed_' . $known_hash, $cookie->getName());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_knows_if_the_cookie_was_set()
     {
         $cookie = new PushCookie('/app.js');
@@ -30,7 +34,9 @@ class PushCookieTest extends TestCase
         $this->assertTrue($cookie->isSet());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_doesnt_set_cookie_if_not_desired()
     {
         $resource = new PushResource('app.js', -1);

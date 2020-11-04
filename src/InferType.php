@@ -49,7 +49,7 @@ class InferType
      */
     private static function getExtension($resource): string
     {
-        $resource = strtok($resource, '?'); # Trim query parameters
+        $resource = strtok($resource, '?'); // Trim query parameters
         $ext = strrchr($resource, '.');
         $trimmed = ltrim($ext, ".");
         return strtolower($trimmed);

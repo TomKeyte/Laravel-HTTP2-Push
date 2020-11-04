@@ -24,7 +24,7 @@ class Http2Push
     /**
      * Add a resource to the push stack
      *
-     * @param string $resource
+     * @param string   $resource
      * @param int|null $expires
      */
     public function add($resource, $expires = null): void
@@ -41,14 +41,16 @@ class Http2Push
     private function addPermanents()
     {
         collect(config('http2push.always'))
-            ->each(function ($resource) {
-                if (is_string($resource)) {
-                    $this->add($resource);
+            ->each(
+                function ($resource) {
+                    if (is_string($resource)) {
+                        $this->add($resource);
+                    }
+                    if (is_array($resource) && isset($resource['src'])) {
+                        $this->add($resource['src'], $resource['expires'] ?? null);
+                    }
                 }
-                if (is_array($resource) && isset($resource['src'])) {
-                    $this->add($resource['src'], $resource['expires'] ?? null);
-                }
-            });
+            );
     }
 
     /**
@@ -59,30 +61,37 @@ class Http2Push
     public function buildLinkHeader(): string
     {
         return $this->toPush()
-            ->map(function ($resource) {
-                $src = $resource->getSrc();
-                $attrs = $resource->getAttrString();
-                return sprintf("<%s>; rel=preload; %s", $src, $attrs);
-            })
-            ->map(function ($resource) {
-                return rtrim($resource, ";");
-            })
+            ->map(
+                function ($resource) {
+                    $src = $resource->getSrc();
+                    $attrs = $resource->getAttrString();
+                    return sprintf("<%s>; rel=preload; %s", $src, $attrs);
+                }
+            )
+            ->map(
+                function ($resource) {
+                    return rtrim($resource, ";");
+                }
+            )
             ->implode(', ');
     }
 
     /**
      * Filter out any non unique, or those that have already been pushed
-     *
      */
     private function toPush(): \Illuminate\Support\Collection
     {
         return $this->resources
-            ->unique(function ($resource) {
-                return $resource->getSrc();
-            })
-            ->filter(function ($resource) {
-                return !$resource->wasPushed();
-            });
+            ->unique(
+                function ($resource) {
+                    return $resource->getSrc();
+                }
+            )
+            ->filter(
+                function ($resource) {
+                    return !$resource->wasPushed();
+                }
+            );
     }
 
     /**
@@ -93,13 +102,15 @@ class Http2Push
     public function setPushCookies($response): void
     {
         $this->toPush()
-            ->each(function ($resource) use (&$response) {
-                if ($resource->getCookieExpires() !== false) {
-                    $response->withCookie(
-                        (new PushCookie($resource->getSrc(), $resource->getCookieExpires()))->makeCookie()
-                    );
+            ->each(
+                function ($resource) use (&$response) {
+                    if ($resource->getCookieExpires() !== false) {
+                        $response->withCookie(
+                            (new PushCookie($resource->getSrc(), $resource->getCookieExpires()))->makeCookie()
+                        );
+                    }
                 }
-            });
+            );
     }
 
     /**

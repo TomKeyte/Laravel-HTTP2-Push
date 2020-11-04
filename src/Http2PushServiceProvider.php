@@ -17,9 +17,12 @@ class Http2PushServiceProvider extends ServiceProvider
 
         $this->registerBladeDirective();
         if ($this->app->runningInConsole()) {
-            $this->publishes([
+            $this->publishes(
+                [
                 __DIR__ . '/config/config.php' => config_path('http2push.php'),
-            ], 'config');
+                ],
+                'config'
+            );
         }
     }
 
@@ -36,9 +39,12 @@ class Http2PushServiceProvider extends ServiceProvider
      */
     private function registerBladeDirective(): void
     {
-        Blade::directive('h2push', function ($arguments) {
-            return "<?php echo h2push({$arguments}); ?>";
-        });
+        Blade::directive(
+            'h2push',
+            function ($arguments) {
+                return "<?php echo h2push({$arguments}); ?>";
+            }
+        );
     }
 
     /**
@@ -50,8 +56,11 @@ class Http2PushServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/config/config.php', 'http2push');
 
         // Register the main class to use with the facade
-        $this->app->singleton('http2push', function () {
-            return new Http2Push;
-        });
+        $this->app->singleton(
+            'http2push',
+            function () {
+                return new Http2Push;
+            }
+        );
     }
 }

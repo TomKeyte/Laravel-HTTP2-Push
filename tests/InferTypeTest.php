@@ -8,7 +8,9 @@ use Orchestra\Testbench\TestCase;
 
 class InferTypeTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     */
     public function it_correctly_inferes_basic_types()
     {
         $basic = [
@@ -16,12 +18,16 @@ class InferTypeTest extends TestCase
             'style' => 'css/app.css'
         ];
 
-        collect($basic)->each(function ($resource, $type) {
-            $this->assertEquals($type, InferType::infer($resource));
-        });
+        collect($basic)->each(
+            function ($resource, $type) {
+                $this->assertEquals($type, InferType::infer($resource));
+            }
+        );
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_correctly_inferes_font_types()
     {
         $fonts = [
@@ -31,12 +37,16 @@ class InferTypeTest extends TestCase
             'font.woff2'
         ];
 
-        collect($fonts)->each(function ($resource) {
-            $this->assertEquals('font', InferType::infer($resource));
-        });
+        collect($fonts)->each(
+            function ($resource) {
+                $this->assertEquals('font', InferType::infer($resource));
+            }
+        );
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_correctly_inferes_image_types()
     {
         $images = [
@@ -53,26 +63,34 @@ class InferTypeTest extends TestCase
             'image.webp'
         ];
 
-        collect($images)->each(function ($resource) {
-            $this->assertEquals('image', InferType::infer($resource));
-        });
+        collect($images)->each(
+            function ($resource) {
+                $this->assertEquals('image', InferType::infer($resource));
+            }
+        );
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_inferes_type_when_a_query_string_is_present()
     {
         $resource = 'js/app.js?id=abc123';
         $this->assertEquals('script', InferType::infer($resource));
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_inferes_type_when_resource_contains_multiple_periods()
     {
         $resource = 'js/app.bundle.production.js';
         $this->assertEquals('script', InferType::infer($resource));
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_throws_an_exception_if_it_cannot_infer_type()
     {
         $this->app['config']->set('exception_on_failure');
@@ -81,7 +99,9 @@ class InferTypeTest extends TestCase
         InferType::infer('script.exe');
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_throws_an_exception_if_no_type_supplied()
     {
         $this->app['config']->set('http2push.exception_on_failure', true);
@@ -90,7 +110,9 @@ class InferTypeTest extends TestCase
         InferType::infer('file');
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_doesnt_throw_an_exception_if_not_desired()
     {
         $this->app['config']->set('http2push.exception_on_failure', false);

@@ -3,7 +3,7 @@
 /**
  * Helper function to add a resource to the push stack
  *
- * @param string $resource
+ * @param string   $resource
  * @param int|null $expires
  */
 function h2push($resource, $expires = null)

@@ -33,23 +33,33 @@ class MiddlewareTest extends TestCase
     }
 
 
-    /** @test */
+    /**
+     * @test
+     */
     public function a_response_has_the_push_cookie()
     {
         (new AddLinkHeader)
-            ->handle($this->request, function () {
-                return $this->response;
-            })
+            ->handle(
+                $this->request,
+                function () {
+                    return $this->response;
+                }
+            )
             ->assertCookie((new PushCookie('/js/app.js'))->getName());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function a_response_has_the_link_header()
     {
         (new AddLinkHeader)
-            ->handle($this->request, function () {
-                return $this->response;
-            })
+            ->handle(
+                $this->request,
+                function () {
+                    return $this->response;
+                }
+            )
             ->assertHeader('Link', $this->push->buildLinkHeader());
     }
 }

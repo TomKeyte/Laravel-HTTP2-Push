@@ -26,13 +26,17 @@ class HTTP2PushTest extends TestCase
     }
 
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_registers()
     {
         $this->assertInstanceOf(Http2Push::class, $this->push);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_adds_resources()
     {
 
@@ -40,13 +44,15 @@ class HTTP2PushTest extends TestCase
         $this->assertTrue($this->push->isNotEmpty());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_builds_the_header_correctly()
     {
 
         $this->push->add('/js/app.js');
 
-        $this->assertEquals('</js/app.js>; rel=preload; as=script', $this->push->buildLinkHeader());;
+        $this->assertEquals('</js/app.js>; rel=preload; as=script', $this->push->buildLinkHeader());
 
         $this->push->add('/css/app.css');
 
@@ -56,7 +62,9 @@ class HTTP2PushTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_ignores_duplicates()
     {
 
@@ -67,7 +75,9 @@ class HTTP2PushTest extends TestCase
         $this->assertEquals('</js/app.js>; rel=preload; as=script', $this->push->buildLinkHeader());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_ignores_cached_resources()
     {
         $resource = '/js/app.js';
@@ -79,21 +89,26 @@ class HTTP2PushTest extends TestCase
         $this->assertEmpty($this->push->buildLinkHeader());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_renders_the_blade_directive()
     {
         $compiled = resolve('blade.compiler')->compileString("@h2push('app.js')");
         $this->assertEquals("<?php echo h2push('app.js'); ?>", $compiled);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function the_helper_returns_the_resource_uri()
     {
         $this->assertEquals('/js/app.js', h2push('/js/app.js'));
-
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function the_helper_function_adds_a_resource()
     {
         h2push('/js/app.js');
@@ -101,16 +116,21 @@ class HTTP2PushTest extends TestCase
         $this->assertTrue($this->push->isNotEmpty());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_adds_config_always_resources()
     {
-        $this->app['config']->set('http2push.always', [
-            'app.js',
+        $this->app['config']->set(
+            'http2push.always',
             [
-                'src' => 'app.css',
-                'expires' => '90',
-            ],
-        ]);
+                'app.js',
+                [
+                    'src' => 'app.css',
+                    'expires' => '90',
+                ],
+            ]
+        );
 
         // create a fresh object
         // as config has changed
@@ -119,7 +139,9 @@ class HTTP2PushTest extends TestCase
         $this->assertTrue($push->isNotEmpty());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_contains_crossorigin_attribute_for_fonts()
     {
         $this->push->add('assets/font.otf');

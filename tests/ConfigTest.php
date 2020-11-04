@@ -16,7 +16,9 @@ class ConfigTest extends TestCase
         return [Http2PushServiceProvider::class];
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_respects_cookie_prefix()
     {
         $prefix = 'test_prefix_';
@@ -25,7 +27,9 @@ class ConfigTest extends TestCase
         $this->assertStringStartsWith($prefix, (new PushCookie('app.js'))->getName());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_respects_global_cookie_expiry()
     {
         $expiry = 27;
@@ -34,7 +38,9 @@ class ConfigTest extends TestCase
         $this->assertEquals($expiry, (new PushCookie('/app.js'))->getExpires());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_respects_type_specific_expiry()
     {
         $script_expiry = 17;
