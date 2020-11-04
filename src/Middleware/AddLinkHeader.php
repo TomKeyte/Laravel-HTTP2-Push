@@ -3,9 +3,21 @@
 namespace TomKeyte\LaravelHttp2Push\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class AddLinkHeader
 {
+    /**
+     * The request object
+     */
+    protected $request;
+
+    /**
+     * The response object
+     */
+    protected $response;
+
     /**
      * Handle an incoming request.
      *
@@ -16,15 +28,46 @@ class AddLinkHeader
      */
     public function handle($request, Closure $next)
     {
-        $response = $next($request);
+        $this->request = $request;
+        $this->response = $next($request);
 
-        $http2push = resolve('http2push');
-
-        if ($request->method() === 'GET' && $http2push->isNotEmpty()) {
-            $response->header('Link', $http2push->buildLinkHeader(), false);
-            $http2push->setPushCookies($response);
+        try {
+            if ($this->isCorrectRequestType() && $this->isCorrectResponseType()) {
+                $this->pushReources();
+            }
+        } catch (Throwable $t) {
+            Log::error($t);
         }
 
-        return $response;
+        return $this->response;
+    }
+
+    /**
+     * Check that the request is of the correct type for a HTTP push
+     */
+    private function isCorrectRequestType(): bool
+    {
+        return $this->request->method() === 'GET' && !$this->request->isJson();
+    }
+
+    /**
+     * Check that the response is of the correct type for a HTTP push
+     */
+    private function isCorrectResponseType(): bool
+    {
+        return ($this->response instanceof \Illuminate\Http\Response && !$this->response->isRedirection());
+    }
+
+    /**
+     * Add the Link header to the response
+     */
+    private function pushReources(): void
+    {
+        $http2push = resolve('http2push');
+
+        if ($http2push->isNotEmpty()) {
+            $this->response->header('Link', $http2push->buildLinkHeader(), false);
+            $http2push->setPushCookies($this->response);
+        }
     }
 }
