@@ -1,5 +1,7 @@
 A cache-aware HTTP2 Server Push implementation, for the Laravel framework
 
+For a comprehensive study of the impacts of HTTP2 Push, check out this [article](https://merj.com/blog/study-of-http2-and-push-coverage-top-100k-websites), courtesy of [Merj Ltd](https://merj.com)
+
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/tomkeyte/laravel-http2-push.svg?style=flat-square)](https://packagist.org/packages/tomkeyte/laravel-http2-push)
 [![Total Downloads](https://img.shields.io/packagist/dt/tomkeyte/laravel-http2-push.svg?style=flat-square)](https://packagist.org/packages/tomkeyte/laravel-http2-push)
 
@@ -94,6 +96,7 @@ composer test-coverage
 ## Credits
 
 - [Tom Keyte](https://github.com/tomkeyte)
+- [Merj Ltd](https://merj.com)
 
 ## License
 
