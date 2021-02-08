@@ -33,7 +33,7 @@ class AddLinkHeader
 
         try {
             if ($this->isCorrectRequestType() && $this->isCorrectResponseType()) {
-                $this->pushReources();
+                $this->pushResources();
             }
         } catch (Throwable $t) {
             Log::error($t);
@@ -61,7 +61,7 @@ class AddLinkHeader
     /**
      * Add the Link header to the response
      */
-    private function pushReources(): void
+    private function pushResources(): void
     {
         $http2push = resolve('http2push');
 
